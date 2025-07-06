@@ -12,13 +12,17 @@ A sub-site for **talks.developingapologist.com** that showcases Christian apolog
 - **Blog Post Links** for related content
 - **Tag System** for categorization
 - **Dark Mode** developer aesthetic matching the main site
+- **Shared Layouts** with responsive navbar and footer components
+- **Work in Progress Badge** with toggle functionality
 
 ## 🛠 Tech Stack
 
 - **Eleventy (11ty)** - Static site generation
 - **Nunjucks (njk)** - Templating engine
 - **Tailwind CSS** - Styling framework
+- **Luxon** - Date formatting for dynamic content
 - **Shared CSS** - Reuses styles from main site (`../website/src/css`)
+- **Shared Layouts** - Git submodule for consistent branding across sites
 
 ## 📁 Project Structure
 
@@ -26,9 +30,15 @@ A sub-site for **talks.developingapologist.com** that showcases Christian apolog
 talks/
 ├── src/
 │   ├── _data/
-│   │   └── talks.js          # Presentation data
+│   │   ├── talks.js          # Presentation data
+│   │   └── site.js           # Site configuration for shared layouts
 │   ├── _includes/
-│   │   └── base.njk          # Base layout template
+│   │   ├── base.njk          # Base layout template (uses shared components)
+│   │   └── shared/           # Git submodule for shared layouts
+│   │       └── includes/
+│   │           └── components/
+│   │               ├── navbar.njk
+│   │               └── footer.njk
 │   ├── css/
 │   │   └── main.css          # Main stylesheet
 │   └── index.njk             # Homepage
@@ -37,7 +47,8 @@ talks/
 ├── eleventy.config.js
 ├── postcss.config.js
 ├── CNAME                     # Subdomain configuration
-└── _redirects               # Netlify redirects
+├── _redirects               # Netlify redirects
+└── .gitmodules              # Git submodule configuration
 ```
 
 ## 🚀 Quick Start
@@ -49,25 +60,152 @@ talks/
 
 ### Installation
 
-1. **Install dependencies:**
+1. **Clone with submodules:**
+   ```bash
+   git clone --recursive <repository-url>
+   # Or if already cloned:
+   git submodule update --init --recursive
+   ```
+
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Build CSS:**
+3. **Build CSS:**
    ```bash
    npm run build:css
    ```
 
-3. **Start development server:**
+4. **Start development server:**
    ```bash
    npm run dev
    ```
 
-4. **Build for production:**
+5. **Build for production:**
    ```bash
    npm run build:full
    ```
+
+## 🎨 Shared Layouts
+
+This project uses shared layouts from the `developing-apologist/shared-layouts` repository as a Git submodule for consistent branding across all sites.
+
+### Features
+
+- ✅ **Responsive navbar** with mobile hamburger menu
+- ✅ **Footer component** with brand section and quick links
+- ✅ **Work in progress badge** (toggleable)
+- ✅ **Custom color scheme** integration
+- ✅ **Luxon date formatting** for copyright year
+- ✅ **Dynamic navigation active states**
+- ✅ **SEO meta tags** and Open Graph support
+
+### Configuration
+
+All site configuration is centralized in `src/_data/site.js`:
+
+- **Logo**: `logo_image`, `logo_alt`
+- **Site Info**: `site_title`, `site_description`
+- **Navigation**: `nav_links` array with active state detection
+- **Footer**: Section titles, visibility toggles
+- **Badge**: `show_wip_badge` toggle
+
+### Usage
+
+The existing `base.njk` layout has been updated to use shared components. Simply use it as before:
+
+```njk
+---
+layout: base.njk
+title: Your Page Title
+description: Your page description
+---
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-vs-fg">
+        Your Page Content
+    </h1>
+    
+    <p class="text-gray-300">
+        This content will be wrapped in the layout with shared navbar and footer.
+    </p>
+</div>
+```
+
+### Using Individual Components
+
+You can also use the navbar and footer components individually in any template:
+
+```njk
+<!-- Navigation -->
+{% set logo_image = site.logo_image %}
+{% set logo_alt = site.logo_alt %}
+{% set site_title = site.site_title %}
+{% set show_wip_badge = site.show_wip_badge %}
+{% set nav_links = site.nav_links %}
+{% include "shared/includes/components/navbar.njk" %}
+
+<!-- Footer -->
+{% set logo_image = site.logo_image %}
+{% set logo_alt = site.logo_alt %}
+{% set site_title = site.site_title %}
+{% set site_description = site.site_description %}
+{% set show_wip_badge = site.show_wip_badge %}
+{% set nav_links = site.nav_links %}
+{% set quick_links_title = site.quick_links_title %}
+{% set show_quick_links = site.show_quick_links %}
+{% set show_resources = site.show_resources %}
+{% set copyright_text = site.copyright_text %}
+{% include "shared/includes/components/footer.njk" %}
+```
+
+### Updating Shared Layouts
+
+To update the shared layouts to the latest version:
+
+```bash
+# Update the submodule
+git submodule update --remote
+
+# Commit the update
+git add src/_includes/shared
+git commit -m "Update shared layouts submodule"
+```
+
+### Customization
+
+#### Colors
+The shared layouts use the custom color scheme defined in `tailwind.config.js`:
+- `logo-steel`, `logo-circuit`, `logo-orange`, `logo-blue`, `logo-glow`
+- `vs-fg` for text colors
+
+#### Navigation Active States
+Update the `active` property in `site.js` to reflect the current page:
+
+```javascript
+nav_links: [
+    { href: "/", label: "Home", active: page.url == "/" },
+    { href: "/about/", label: "About", active: page.url == "/about/" }
+]
+```
+
+#### Footer Sections
+Control footer visibility and titles:
+
+```javascript
+show_quick_links: true,
+show_resources: false, // Set to false to hide resources section
+quick_links_title: "Quick Links"
+```
+
+### Current Configuration
+
+The current setup includes:
+- **Navigation**: Links to main site, about, blog, and presentations (with presentations marked as active)
+- **Footer**: Quick links section using navigation data, resources section disabled
+- **Work in Progress Badge**: Enabled
+- **Date Formatting**: Using Luxon for dynamic copyright year
 
 ## 📝 Adding New Talks
 
@@ -136,6 +274,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: '16'

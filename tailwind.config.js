@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.{html,js,njk,md}",
     "./src/_includes/**/*.njk",
+    "./src/_includes/shared/**/*.njk",
     "./src/_layouts/**/*.njk",
     "./src/_data/**/*.js",
     "./src/_data/**/*.json"
