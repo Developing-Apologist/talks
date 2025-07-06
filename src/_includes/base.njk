@@ -3,32 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if title %}{{ title }} - {% endif %}Christian Apologetics Talks | The Developing Apologist</title>
+    <title>{% if title %}{{ title }} - {% endif %}The Developing Apologist Talks</title>
     <meta name="description" content="{% if description %}{{ description }}{% else %}Equipping Believers with Reasoned Faith — One Talk at a Time.{% endif %}">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="/css/tailwind.css">
-    
     <!-- Open Graph -->
-    <meta property="og:title" content="{% if title %}{{ title }}{% else %}Christian Apologetics Talks{% endif %}">
-    <meta property="og:description" content="{% if description %}{{ description }}{% else %}Equipping Believers with Reasoned Faith — One Talk at a Time.{% endif %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://talks.developingapologist.com">
-    <meta property="og:image" content="https://developingapologist.com/assets/og-image.jpg">
+    <meta property="og:title" content="{% if title %}{{ title }}{% else %}The Developing Apologist Talks{% endif %}">
+    <meta property="og:description" content="{% if description %}{{ description }}{% else %}Equipping Believers with Reasoned Faith — One Talk at a Time.{% endif %}">
+    <meta property="og:image" content="{{ ogImage or '/assets/developing-apologist-logo-v2.png' }}">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}Christian Apologetics Talks{% endif %}">
+    <meta property="twitter:url" content="{{ page.url | absoluteUrl }}">
+    <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}The Developing Apologist Talks{% endif %}">
     <meta name="twitter:description" content="{% if description %}{{ description }}{% else %}Equipping Believers with Reasoned Faith — One Talk at a Time.{% endif %}">
-    <meta name="twitter:image" content="https://developingapologist.com/assets/og-image.jpg">
+    <meta property="twitter:image" content="{{ ogImage or '/assets/developing-apologist-logo-v2.png' }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/tailwind.css">
 </head>
 <body class="bg-logo-navy text-vs-fg min-h-screen">
     <!-- Navigation -->

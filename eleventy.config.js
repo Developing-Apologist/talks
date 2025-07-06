@@ -18,6 +18,13 @@ module.exports = function(eleventyConfig) {
     });
   });
 
+  // Absolute URL filter
+  eleventyConfig.addFilter("absoluteUrl", function(url) {
+    if (!url) return "";
+    if (url.startsWith('http')) return url;
+    return `https://talks.developingapologist.com${url}`;
+  });
+
   return {
     dir: {
       input: "src",
