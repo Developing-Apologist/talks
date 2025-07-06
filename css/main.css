@@ -28,6 +28,23 @@
   .filter-btn.active {
     @apply bg-logo-blue text-white border-logo-blue;
   }
+  
+  /* Navigation layout fixes to match main site */
+  .nav-container {
+    @apply flex justify-between items-center h-16;
+  }
+  
+  .nav-logo {
+    @apply flex items-center;
+  }
+  
+  .nav-badge {
+    @apply hidden md:flex items-center justify-center flex-1;
+  }
+  
+  .nav-links {
+    @apply hidden md:flex items-center space-x-8;
+  }
 }
 
 /* Talks-specific custom styles */
