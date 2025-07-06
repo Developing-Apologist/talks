@@ -2,6 +2,34 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Essential button and navigation styles */
+@layer components {
+  .btn-primary {
+    @apply bg-logo-blue hover:bg-logo-glow text-white font-medium py-2 px-4 rounded transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-logo-steel hover:bg-logo-circuit text-vs-fg font-medium py-2 px-4 rounded border border-logo-circuit transition-colors duration-200;
+  }
+  
+  .nav-link {
+    @apply text-vs-fg hover:text-logo-glow transition-colors duration-200;
+  }
+  
+  .nav-link.active {
+    @apply text-logo-blue;
+  }
+  
+  /* Filter button styles */
+  .filter-btn {
+    @apply bg-logo-steel hover:bg-logo-circuit text-vs-fg font-medium py-2 px-4 rounded border border-logo-circuit transition-colors duration-200;
+  }
+  
+  .filter-btn.active {
+    @apply bg-logo-blue text-white border-logo-blue;
+  }
+}
+
 /* Talks-specific custom styles */
 @layer components {
   .talk-card {
